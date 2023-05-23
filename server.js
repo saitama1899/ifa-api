@@ -42,7 +42,7 @@ app.post('/api/infojobs', async (req, res) => {
         const data = responses.map(response => response.data);
         res.json(data);
     } catch (error) {
-        res.status(500).send(error.message, accessToken);
+        res.status(500).send(error.message)
     }
 });
 
