@@ -16,7 +16,10 @@ app.post('/api/infojobs', async (req, res) => {
 
     try {
         const curriculumListResponse = await axios.get('https://api.infojobs.net/api/2/curriculum', {
-            headers: { 'Authorization': `Basic ${hash}, Bearer ${accessToken}` },
+            headers: { 
+                'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
         });
 
         const curriculumId = curriculumListResponse.data[0].id;
