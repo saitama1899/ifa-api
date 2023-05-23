@@ -28,28 +28,28 @@ app.post('/api/infojobs', async (req, res) => {
 
         const curriculumPrincipal = curriculumListResponse.data.find(curriculum => curriculum.principal)
         const curriculumId = curriculumPrincipal.code
-        // res.json(curriculumId)
+        res.json(curriculumId)
 
-        const endpoints = [
-            `/api/1/curriculum/${curriculumId}/cvtext`,
-            `/api/1/curriculum/${curriculumId}/education`,
-            `/api/1/curriculum/${curriculumId}/experience`,
-            `/api/1/curriculum/${curriculumId}/futurejob`,
-            `/api/1/curriculum/${curriculumId}/skill`,
-            // `/api/1/offer/${offerId}`,
-        ];
+        // const endpoints = [
+        //     `/api/1/curriculum/${curriculumId}/cvtext`,
+        //     `/api/1/curriculum/${curriculumId}/education`,
+        //     `/api/1/curriculum/${curriculumId}/experience`,
+        //     `/api/1/curriculum/${curriculumId}/futurejob`,
+        //     `/api/1/curriculum/${curriculumId}/skill`,
+        //     // `/api/1/offer/${offerId}`,
+        // ];
 
-        const responses = await Promise.all(endpoints.map(endpoint =>
-            axios.get(`https://api.infojobs.net${endpoint}`, {
-                headers: { 
-                    'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
-                },            
-            })
-        ));
+        // const responses = await Promise.all(endpoints.map(endpoint =>
+        //     axios.get(`https://api.infojobs.net${endpoint}`, {
+        //         headers: { 
+        //             'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
+        //             'Content-Type': 'application/json',
+        //         },            
+        //     })
+        // ));
 
-        const data = responses.map(response => response.data);
-        res.json(data);
+        // const data = responses.map(response => response.data);
+        // res.json(data);
     } catch (error) {
         res.status(500).send(error.message)
     }
