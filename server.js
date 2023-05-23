@@ -1,6 +1,9 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors')
+const openai = require('openai');
+const generatePrompt = require('./prompt');  // Asegúrate de que la ruta es correcta
+
 require('dotenv').config();
 
 const app = express();
@@ -11,14 +14,8 @@ app.use(express.json());
 app.post('/api/infojobs', async (req, res) => {
     const accessToken = req.body.accessToken;
     const offerId = req.body.offerId;
-
-    // const clientId = process.env.CLIENT_ID;
-    // const clientSecret = process.env.CLIENT_SECRET;
     const hash = process.env.HASH;
-
-    // Codificamos las credenciales en base64 para crear el token básico
-    // const basicToken = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-
+    openai.apiKey = process.env.OPENAI_API_KEY;
     try {
         const curriculumListResponse = await axios.get('https://api.infojobs.net/api/2/curriculum', {
             headers: { 
@@ -36,7 +33,7 @@ app.post('/api/infojobs', async (req, res) => {
                 'Content-Type': 'application/json',
             },
         });
-        const offerData = offer.data;
+        const offerInfo = offer?.data;
 
         const endpoints = [
             `/api/1/curriculum/${curriculumId}/cvtext`,
@@ -61,15 +58,19 @@ app.post('/api/infojobs', async (req, res) => {
         const curriculumInfo = responses
             .filter(response => response.status === 'fulfilled')
             .map(response => response.value.data);
-        
-        // const failedResponses = responses
-        //     .filter(response => response.status === 'rejected')
-        //     .map(response => response.reason);
-        
-        res.json({
-            curriculumInfo,
-            offerData
+
+        // TODO
+        const prompt = generatePrompt(curriculumInfo, offerInfo);
+        const maxTokens = 60;
+        const openaiResponse = await openai.Completion.create({
+            engine: "text-davinci-003.5-turbo",
+            prompt: prompt,
+            max_tokens: maxTokens,
         });
+        const gptResponse = openaiResponse.data.choices[0].text.trim();
+        res.json({
+            gptResponse
+        })
 
     } catch (error) {
         res.status(500).send(error.message)
@@ -81,9 +82,9 @@ app.get('/api/ping', (req, res) => {
     res.status(200).send("pong");
 });
 
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`)
-// })
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
 
 module.exports = app;
