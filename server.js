@@ -28,35 +28,55 @@ app.post('/api/infojobs', async (req, res) => {
 
         const curriculumPrincipal = curriculumListResponse.data.find(curriculum => curriculum.principal)
         const curriculumId = curriculumPrincipal.code
-        res.json(curriculumId)
 
-        // const endpoints = [
-        //     `/api/1/curriculum/${curriculumId}/cvtext`,
-        //     `/api/1/curriculum/${curriculumId}/education`,
-        //     `/api/1/curriculum/${curriculumId}/experience`,
-        //     `/api/1/curriculum/${curriculumId}/futurejob`,
-        //     `/api/1/curriculum/${curriculumId}/skill`,
-        //     // `/api/1/offer/${offerId}`,
-        // ];
+        const endpoints = [
+            `/api/1/curriculum/${curriculumId}/cvtext`,
+            `/api/1/curriculum/${curriculumId}/education`,
+            `/api/2/curriculum/${curriculumId}/experience`,
+            `/api/4/curriculum/${curriculumId}/futurejob`,
+            `/api/2/curriculum/${curriculumId}/skill`,
+            `/api/7/offer/${offerId}`,
+        ];
 
-        // const responses = await Promise.all(endpoints.map(endpoint =>
-        //     axios.get(`https://api.infojobs.net${endpoint}`, {
-        //         headers: { 
-        //             'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
-        //             'Content-Type': 'application/json',
-        //         },            
-        //     })
-        // ));
+        const responses = await Promise.allSettled(endpoints.map(endpoint =>
+            axios.get(`https://api.infojobs.net${endpoint}`, {
+                headers: { 
+                    'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },            
+            }).catch(error => {
+                console.error(`Error in GET ${endpoint}: ${error.message}`);
+                return error;
+            })
+        ));
+        
+        const successfulResponses = responses
+            .filter(response => response.status === 'fulfilled')
+            .map(response => response.value.data);
+        
+        console.log(successfulResponses);
+        
+        // const failedResponses = responses
+        //     .filter(response => response.status === 'rejected')
+        //     .map(response => response.reason);
+        
+        res.json(
+            successfulResponses
+        );
 
-        // const data = responses.map(response => response.data);
-        // res.json(data);
     } catch (error) {
         res.status(500).send(error.message)
+        console.error(error.message)
     }
 });
 
 app.get('/api/ping', (req, res) => {
     res.status(200).send("pong");
 });
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
 
 module.exports = app;
