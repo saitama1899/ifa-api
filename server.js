@@ -1,6 +1,10 @@
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors')
+
 const app = express();
+app.use(cors())
+
 app.use(express.json());
 
 app.post('/api/infojobs', async (req, res) => {
@@ -23,28 +27,28 @@ app.post('/api/infojobs', async (req, res) => {
         });
 
         const curriculumId = curriculumListResponse.data[0].id;
+        res.json(curriculumId);
 
-        const endpoints = [
-            `/api/1/curriculum/${curriculumId}/cvtext`,
-            `/api/1/curriculum/${curriculumId}/education`,
-            `/api/1/curriculum/${curriculumId}/experience`,
-            `/api/1/curriculum/${curriculumId}/futurejob`,
-            `/api/1/curriculum/${curriculumId}/skill`,
-            `/api/1/offer/${offerId}`,
-        ];
+        // const endpoints = [
+        //     `/api/1/curriculum/${curriculumId}/cvtext`,
+        //     `/api/1/curriculum/${curriculumId}/education`,
+        //     `/api/1/curriculum/${curriculumId}/experience`,
+        //     `/api/1/curriculum/${curriculumId}/futurejob`,
+        //     `/api/1/curriculum/${curriculumId}/skill`,
+        //     // `/api/1/offer/${offerId}`,
+        // ];
 
-        const responses = await Promise.all(endpoints.map(endpoint =>
-            axios.get(`https://api.infojobs.net${endpoint}`, {
-                headers: { 
-                    'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
-                },            
-            })
-        ));
+        // const responses = await Promise.all(endpoints.map(endpoint =>
+        //     axios.get(`https://api.infojobs.net${endpoint}`, {
+        //         headers: { 
+        //             'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
+        //             'Content-Type': 'application/json',
+        //         },            
+        //     })
+        // ));
 
-        const data = responses.map(response => response.data);
-        res.json(data);
-        // res.json(JSON.stringify(data));
+        // const data = responses.map(response => response.data);
+        // res.json(data);
     } catch (error) {
         res.status(500).send(error.message)
     }
