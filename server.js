@@ -25,19 +25,31 @@ app.post('/api/infojobs', async (req, res) => {
                 'Content-Type': 'application/json',
             },
         });
-        // [
-        //     {
-        //         "id": 33695177462,
-        //         "code": "c844dbca-efe1-4fe8-8c87-1e9de645c6d9",
-        //         "name": "Eric",
-        //         "principal": true,
-        //         "completed": true,
-        //         "incompleteSteps": []
-        //     }
-        // ]
-        const curriculumPrincipal = curriculumListResponse.data.find(curriculum => curriculum.principal);
-        const curriculumId = curriculumPrincipal.id;
-        res.json(curriculumId);
+
+        const curriculumPrincipal = curriculumListResponse.data.find(curriculum => curriculum.principal)
+        const curriculumId = curriculumPrincipal.code
+        // res.json(curriculumId)
+
+        const endpoints = [
+            `/api/1/curriculum/${curriculumId}/cvtext`,
+            `/api/1/curriculum/${curriculumId}/education`,
+            `/api/1/curriculum/${curriculumId}/experience`,
+            `/api/1/curriculum/${curriculumId}/futurejob`,
+            `/api/1/curriculum/${curriculumId}/skill`,
+            // `/api/1/offer/${offerId}`,
+        ];
+
+        const responses = await Promise.all(endpoints.map(endpoint =>
+            axios.get(`https://api.infojobs.net${endpoint}`, {
+                headers: { 
+                    'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },            
+            })
+        ));
+
+        const data = responses.map(response => response.data);
+        res.json(data);
     } catch (error) {
         res.status(500).send(error.message)
     }
