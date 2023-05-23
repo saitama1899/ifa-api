@@ -7,7 +7,6 @@ app.post('/api/infojobs', async (req, res) => {
     const accessToken = req.body.accessToken;
     const offerId = req.body.offerId;
 
-    // Tus credenciales
     const clientId = '9a3461370cad412298bebf3dec098ede';
     const clientSecret = 'DCDxBw9SLFwVP8rmJL1Td4uAEQseSMLIPeUM01b6vXR/BLYxOq';
 
@@ -41,6 +40,10 @@ app.post('/api/infojobs', async (req, res) => {
     } catch (error) {
         res.status(500).send(error.message);
     }
+});
+
+app.get('/api/ping', (req, res) => {
+    res.status(200).send("pong");
 });
 
 module.exports = app;
