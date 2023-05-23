@@ -7,14 +7,18 @@ app.post('/api/infojobs', async (req, res) => {
     const accessToken = req.body.accessToken;
     const offerId = req.body.offerId;
 
+    // Tus credenciales
+    const clientId = '9a3461370cad412298bebf3dec098ede';
+    const clientSecret = 'DCDxBw9SLFwVP8rmJL1Td4uAEQseSMLIPeUM01b6vXR/BLYxOq';
+
+    // Codificamos las credenciales en base64 para crear el token básico
+    const basicToken = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+
     try {
-        // First, get the list of curriculums
         const curriculumListResponse = await axios.get('https://api.infojobs.net/api/2/curriculum', {
-            headers: { 'Authorization': `Bearer ${accessToken}` },
+            headers: { 'Authorization': `Basic ${basicToken}, Bearer ${accessToken}` },
         });
 
-        // Extract the curriculumId from the first curriculum in the list
-        // (or implement your own logic for choosing which curriculum to use)
         const curriculumId = curriculumListResponse.data[0].id;
 
         const endpoints = [
@@ -28,7 +32,7 @@ app.post('/api/infojobs', async (req, res) => {
 
         const responses = await Promise.all(endpoints.map(endpoint =>
             axios.get(`https://api.infojobs.net${endpoint}`, {
-                headers: { 'Authorization': `Bearer ${accessToken}` },
+                headers: { 'Authorization': `Basic ${basicToken}, Bearer ${accessToken}` },
             })
         ));
 
