@@ -3,7 +3,7 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-app.get('/api/infojobs', async (req, res) => {
+app.post('/api/infojobs', async (req, res) => {
     const accessToken = req.body.accessToken;
     const offerId = req.body.offerId;
 
