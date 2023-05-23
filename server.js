@@ -12,12 +12,12 @@ app.post('/api/infojobs', async (req, res) => {
     const accessToken = req.body.accessToken;
     const offerId = req.body.offerId;
 
-    const clientId = process.env.CLIENT_ID;
-    const clientSecret = process.env.CLIENT_SECRET;
+    // const clientId = process.env.CLIENT_ID;
+    // const clientSecret = process.env.CLIENT_SECRET;
     const hash = process.env.HASH;
 
     // Codificamos las credenciales en base64 para crear el token básico
-    const basicToken = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+    // const basicToken = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
 
     try {
         const curriculumListResponse = await axios.get('https://api.infojobs.net/api/2/curriculum', {
@@ -69,7 +69,7 @@ app.post('/api/infojobs', async (req, res) => {
         res.json({
             curriculumInfo,
             offerData
-    });
+        });
 
     } catch (error) {
         res.status(500).send(error.message)
@@ -81,9 +81,9 @@ app.get('/api/ping', (req, res) => {
     res.status(200).send("pong");
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//     console.log(`Server running on port ${PORT}`)
+// })
 
 module.exports = app;
