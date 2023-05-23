@@ -36,7 +36,7 @@ app.post('/api/infojobs', async (req, res) => {
         //     }
         // ]
         const curriculumPrincipal = curriculumListResponse.data.find(curriculum => curriculum.principal);
-        const curriculumId = curriculumPrincipal.data[0].id;
+        const curriculumId = curriculumPrincipal.id;
         res.json(curriculumId);
     } catch (error) {
         res.status(500).send(error.message)
