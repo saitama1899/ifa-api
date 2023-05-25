@@ -13,14 +13,10 @@ const {
     convertStringToObject
 } = require('./utils')
 
-
 require('dotenv').config()
 
 const app = express()
-// app.use(cors())
-app.use(cors({
-    origin: 'https://ijkeilgfehinjmckjafpllcoonflgcfh.chromiumapp.org/',
-}));
+app.use(cors())
 
 app.use(express.json())
 
@@ -39,6 +35,9 @@ app.post('/api/infojobs', async (req, res) => {
                 'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             },
+        }).catch(error => {
+            console.error('Error getting curriculum list:', error.response || error.message)
+            throw error
         })
 
         const curriculumPrincipal = curriculumListResponse.data.find(curriculum => curriculum.principal)
@@ -49,7 +48,11 @@ app.post('/api/infojobs', async (req, res) => {
                 'Authorization': `Basic ${hash}, Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             },
+        }).catch(error => {
+            console.error(`Error getting offer ${offerId}:`, error.response || error.message)
+            throw error
         })
+
         const offerInfo = offer?.data
 
         const endpoints = [
@@ -67,7 +70,7 @@ app.post('/api/infojobs', async (req, res) => {
                     'Content-Type': 'application/json',
                 },            
             }).catch(error => {
-                console.error(`Error in GET ${endpoint}: ${error.message}`)
+                console.error(`Error in GET ${endpoint}:`, error.response || error.message)
                 return error
             })
         ))
@@ -75,7 +78,6 @@ app.post('/api/infojobs', async (req, res) => {
         const curriculumInfo = responses
             .filter(response => response.status === 'fulfilled')
             .reduce((acc, response) => ({ ...acc, ...response.value.data }), {})
-
 
         const initial = initialPrompt(curriculumInfo, offerInfo)
         const curriculumDescription = getProfileDescription(curriculumInfo)
@@ -85,24 +87,27 @@ app.post('/api/infojobs', async (req, res) => {
             {role: "user", content: initial},
             {role: "user", content: curriculumDescription},
             {role: "user", content: offerDescription},
-        ];
-        // console.log(prompt);
-        // const maxTokens = 200
+        ]
 
         const gptResponse = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: messages,
             temperature: 0.6,
+        }).catch(error => {
+            console.error('Error creating chat completion:', error.response || error.message)
+            throw error
         })
+
         const gptText = gptResponse.data.choices[0]?.message?.content
         const gptObject = convertStringToObject(gptText)
+
         res.json({
             response: gptObject
         })
 
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: error.message });
+        console.error('Unhandled error:', error)
+        res.status(500).send({ message: error.message })
     }
 })
 
