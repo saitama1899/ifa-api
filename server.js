@@ -17,7 +17,10 @@ const {
 require('dotenv').config()
 
 const app = express()
-app.use(cors())
+// app.use(cors())
+app.use(cors({
+    origin: 'https://ijkeilgfehinjmckjafpllcoonflgcfh.chromiumapp.org/',
+}));
 
 app.use(express.json())
 
