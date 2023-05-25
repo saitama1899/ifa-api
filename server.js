@@ -86,15 +86,15 @@ app.post('/api/infojobs', async (req, res) => {
         // console.log(prompt);
         // const maxTokens = 200
 
-        // const gptResponse = await openai.createChatCompletion({
-        //     model: "gpt-3.5-turbo",
-        //     messages: messages,
-        //     temperature: 0.6,
-        // })
-        // const gptText = gptResponse.data.choices[0]?.message?.content
-        // const gptObject = convertStringToObject(gptText)
+        const gptResponse = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: messages,
+            temperature: 0.6,
+        })
+        const gptText = gptResponse.data.choices[0]?.message?.content
+        const gptObject = convertStringToObject(gptText)
         res.json({
-            response: curriculumDescription
+            response: gptObject
         })
 
     } catch (error) {
