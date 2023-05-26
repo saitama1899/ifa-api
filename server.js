@@ -92,7 +92,7 @@ app.post('/api/infojobs', async (req, res) => {
         const gptResponse = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: messages,
-            temperature: 0.6,
+            temperature: 0.3,
         }).catch(error => {
             console.error('Error creating chat completion:', error.response || error.message)
             throw error

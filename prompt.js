@@ -9,9 +9,9 @@ function initialPrompt() {
     4- Porcentaje de compatibilidad de la oferta de trabajo con el curriculum.
     5- Porcentaje de exito de conseguir el puesto de trabajo.
     Ten en cuenta que: 
+    - El formato de tu respuesta no debe contener el titulo de cada punto. Solo debe contener la respuesta. Por ejemplo: '1- He detectado...'.
     - Ignora cualquier recomendacion sobre el formato del CV.
     - Ignora que falten los datos de contacto.
-    - Este es un ejemplo del formato de tu respuesta: 1- He identificado varios errores en tu CV en relación... 2- Se debe ajustar la información del CV de manera que... y asi con el resto de puntos.
     - Tu respuesta deber estar en el idioma del curriculum.
     - Dirigete en primera persona al candidato y hablale de tu.
     - El punto 4 y 5 deben estar en porcentaje acompañado posteriormente de un texto explicativo. Siempre debe contener un porcentaje.
