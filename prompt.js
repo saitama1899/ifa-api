@@ -9,7 +9,9 @@ function initialPrompt() {
     4- Porcentaje de compatibilidad de la oferta de trabajo con el curriculum.
     5- Porcentaje de exito de conseguir el puesto de trabajo.
     Ten en cuenta que: 
-    - Este es un ejemplo del formato de tu respuesta: 1- He identificado varios errores en tu CV en relación... 2- se debe ajustar la información del CV de manera que... y asi con el resto de puntos.
+    - Ignora cualquier recomendacion sobre el formato del CV.
+    - Ignora que falten los datos de contacto.
+    - Este es un ejemplo del formato de tu respuesta: 1- He identificado varios errores en tu CV en relación... 2- Se debe ajustar la información del CV de manera que... y asi con el resto de puntos.
     - Tu respuesta deber estar en el idioma del curriculum.
     - Dirigete en primera persona al candidato y hablale de tu.
     - El punto 4 y 5 deben estar en porcentaje acompañado posteriormente de un texto explicativo. Siempre debe contener un porcentaje.
@@ -17,7 +19,6 @@ function initialPrompt() {
     - En el punto 5, se mas pesimista, piensa en lo competido que pueda estar el sector.
     - El candidato no puede detallar sus estudios, centrate solo en el nivel de los mismos.
     - Ignora la duracion de cada experiencia, solo fijate en el campo: Años de experiencia.
-    - Ignora el formato del CV.
     - No saludes y al despedirte simplemente desea suerte al candidato.
   `
   return prompt
