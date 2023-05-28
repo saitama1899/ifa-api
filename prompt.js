@@ -3,14 +3,14 @@ const languages = require('./languages.json');
 function initialPrompt() {
   const prompt = `
     Vas a realizar un analisis de un curriculum y una oferta de trabajo. El objetivo del analisis será el de ayudar al candidato a conseguir ese puesto de trabajo. Te mandaré la información en los siguientes mensajes. Los puntos a analizar son los siguientes:
-    1- Fallos en el curriculum, datos que falten, faltas de ortografia... Presta atencion tambien en analizar 'CV en texto', avisa si no existe.
+    1- Fallos en el curriculum, datos que falten, faltas de ortografia... Presta atencion tambien en analizar 'CV en texto', avisa si no existe y recomienda como deberia ser.
     2- Cambios para adaptarlo mejor a la oferta en cuestion.
     3- Previsión del proceso de selección, posibles preguntas y preparacion.
     4- Porcentaje de compatibilidad de la oferta de trabajo con el curriculum.
     5- Porcentaje de exito de conseguir el puesto de trabajo.
-    Ten en cuenta que: 
+    Ten en cuenta que:
+    - Los datos extraidos del CV son en formato web y no en texto plano, por lo que deberias ignorar recomendaciones sobre formato clasico de CV.
     - El formato de tu respuesta no debe contener el titulo de cada punto. Solo debe contener la respuesta. Por ejemplo: '1- He detectado...'.
-    - Ignora cualquier recomendacion sobre el formato del CV.
     - Ignora que falten los datos de contacto.
     - Tu respuesta deber estar en el idioma del curriculum.
     - Dirigete en primera persona al candidato y hablale de tu.
