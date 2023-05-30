@@ -16,6 +16,8 @@ function initialPrompt() {
     - Dirigete en primera persona al candidato y hablale de tu.
     - El punto 4 y 5 deben estar en porcentaje acompañado posteriormente de un texto explicativo. Siempre debe contener un porcentaje.
     - Evita ser reduntante, aporta valor y detalla lo que consideres necesario.
+    - Si el sector no tiene mucha relacion con el puesto de trabajo, hazlo saber.
+    - En el punto 4 y 5, da un porcentaje cercano al 0% si el sector no tiene mucha relacion con el puesto de trabajo.
     - En el punto 5, se mas pesimista, piensa en lo competido que pueda estar el sector.
     - El candidato no puede detallar sus estudios, centrate solo en el nivel de los mismos.
     - Ignora la duracion de cada experiencia, solo fijate en el campo: Años de experiencia.
